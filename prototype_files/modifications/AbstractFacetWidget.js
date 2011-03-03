@@ -71,7 +71,8 @@ AjaxSolr.AbstractFacetWidget = AjaxSolr.AbstractWidget.extend(
 
     if (this.limit !== null) {
       // (mw542): Need to URLencode field names that contain periods
-      this.manager.store.addByValue('f.' + encodeURIComponent(this.field) + '.facet.limit', this.limit);
+      // (mw542): Adding 1 to the limit so we can determine when "Show all" links are necessary
+      this.manager.store.addByValue('f.' + encodeURIComponent(this.field) + '.facet.limit', this.limit + 1);
     }
   },
 

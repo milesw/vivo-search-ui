@@ -22,6 +22,7 @@ AjaxSolr.MultiCheckboxFacet = AjaxSolr.AbstractFacetWidget.extend({
       var facets = this.facets();
       var activeFacets = this.getActive();
       var limit = (this.limit != null) ? this.limit : 5;
+      var includeShowallLink = false;
       
       // Don't continue if there is nothing to work with
       if (facets < 1 && activeFacets < 1) {
@@ -58,6 +59,12 @@ AjaxSolr.MultiCheckboxFacet = AjaxSolr.AbstractFacetWidget.extend({
             count++;
           }
         }
+        
+        // Each facet widget should have an item limit set in its config. In AbstractFacetWidget, 
+        // we add 1 to this limit when telling Solr how many facet items to return. If the number
+        // of items returned by Solr is more than our set limit, we can assume there are additional 
+        // facet items to offer a user, and therefore include a "Show all" link.
+        if (facets.length > limit) includeShowallLink = true;
       }
       
       // There may still be leftovers that were previously selected 
@@ -76,7 +83,7 @@ AjaxSolr.MultiCheckboxFacet = AjaxSolr.AbstractFacetWidget.extend({
       });
       target.empty().append(heading).append(list);
       
-      if (popups[this.id] !== undefined) {
+      if (popups[this.id] !== undefined && includeShowallLink) {
         target.append(AjaxSolr.theme('facet_showall_link', this.popupHandler()));
       }
     }
