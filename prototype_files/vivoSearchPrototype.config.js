@@ -59,7 +59,8 @@ var groups = {
   // Search form(s)
   Manager.addWidget(new AjaxSolr.SearchText({
     id: 'search',
-    target: '#ajax-search-form, #search-form' // Bound to both search forms
+    target: '#ajax-search-form',
+    secondaryTarget: '#search-form' // Site-wide search form
   }));
   
   // Results area
