@@ -309,11 +309,15 @@ AjaxSolr.AbstractFacetWidget = AjaxSolr.AbstractWidget.extend(
       format: this.formatFacet(facet)
     });
     if (this.tagAndExclude) {
+      // (mw542) We want the tag for the popup widget to be identical 
+      //   to the tag used by the facet it accompanies. The ID for the
+      //   popup widget should be the same, plus "_popup". There is
+      //   definitely a better way to do this...
       var tag = (self.id.indexOf('_popup') > 0) ? self.id.substring(0,self.id.indexOf('_popup')) : self.id;
       param.local('tag', tag);
     }
     
-    // (mw542): Property name was not pluralized
+    // (mw542): Bug - property name was not pluralized
     var action = this.allowMultipleValues ? 'add' : 'set';
     return function () {
       if (self[action].call(self, param)) {
