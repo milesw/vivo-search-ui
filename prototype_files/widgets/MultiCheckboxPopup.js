@@ -160,8 +160,9 @@ AjaxSolr.MultiCheckboxPopup = AjaxSolr.AbstractFacetWidget.extend({
       height: 400,
       buttons: {
         Update: function() {
-          handler();
           $(this).dialog( "close" );
+          $(document).scrollTop(0);
+          handler();
     		},
     		Cancel: function() {
     			$(this).dialog( "close" );
