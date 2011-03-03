@@ -8,8 +8,8 @@ AjaxSolr.SearchText = AjaxSolr.AbstractTextWidget.extend({
   init: function () {
     var self = this;
     
-    // Set the initial form value
-    var value = $(self.target).find('input:text').val();
+    // Set the initial form value from either the URL or the form element
+    var value = Manager.store.get('q').val() || $(this.target).find('input:text').val();
     self.set(value);
     
     // Bind to further form submissions
