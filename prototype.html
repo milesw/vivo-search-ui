@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>VIVO Search Results</title>
+
+  <link rel="stylesheet" href="vivo_theme_files/vitro.css" />
+  <link rel="stylesheet" href="vivo_theme_files/jquery-ui-1.8.4.custom.css" />
+  <link rel="stylesheet" href="vivo_theme_files/edit.css" />
+  <link rel="stylesheet" href="vivo_theme_files/screen.css" />
+  <link rel="stylesheet" href="prototype_files/vivoSearchPrototype.css" />
+  
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+
+  <!--[if lt IE 9]><script type="text/javascript" src="vivo_theme_files/html5.js"></script><![endif]-->
+
+  <script type="text/javascript" src="vivo_theme_files/jquery.js"></script>
+  <script type="text/javascript" src="vivo_theme_files/jquery-ui-1.8.4.custom.min.js"></script>
+  <script type="text/javascript" src="vivo_theme_files/vitroUtils.js"></script>
+
+  <!-- Core AjaxSolr files from Jeff Wallace's fork (see http://github.com/tjwallace/ajax-solr) -->
+  <script type="text/javascript" src="ajaxsolr_tjwallace/core/Core.js"></script>
+  <script type="text/javascript" src="ajaxsolr_tjwallace/core/AbstractManager.js"></script>
+  <script type="text/javascript" src="ajaxsolr_tjwallace/core/ParameterStore.js"></script>
+  <script type="text/javascript" src="ajaxsolr_tjwallace/core/ParameterHashStore.js"></script>
+  <script type="text/javascript" src="ajaxsolr_tjwallace/core/AbstractWidget.js"></script>
+  <script type="text/javascript" src="ajaxsolr_tjwallace/core/AbstractTextWidget.js"></script>
+  <script type="text/javascript" src="ajaxsolr_tjwallace/managers/Manager.jquery.js"></script>
+
+  <!-- Modified versions of core AjaxSolr files (most changes marked with "mw542") -->
+  <script type="text/javascript" src="prototype_files/modifications/Parameter.js"></script>
+  <script type="text/javascript" src="prototype_files/modifications/AbstractFacetWidget.js"></script>
+  <script type="text/javascript" src="prototype_files/modifications/PagerWidget.js"></script>
+
+  <!-- Custom AjaxSolr widgets -->
+  <script type="text/javascript" src="prototype_files/widgets/SearchText.js"></script>
+  <script type="text/javascript" src="prototype_files/widgets/ClassGroupFacet.js"></script>
+  <script type="text/javascript" src="prototype_files/widgets/MultiCheckboxFacet.js"></script>
+  <script type="text/javascript" src="prototype_files/widgets/MultiCheckboxPopup.js"></script>
+  <script type="text/javascript" src="prototype_files/widgets/ResultWidget.js"></script>
+  
+  <!-- Configuration specific to the prototype -->
+  <script type="text/javascript" src="prototype_files/vivoSearchPrototype.config.js"></script>
+  <script type="text/javascript" src="prototype_files/vivoSearchPrototype.theme.js"></script>
+
+  <!--[if lt IE 7]><script type="text/javascript" src="vivo_theme_files/supersleight.js"></script><![endif]-->
+  <!--[if lt IE 7]><link rel="stylesheet" href="vivo_theme_files/ie6.css" /><![endif]-->
+  <!--[if IE 7]><link rel="stylesheet" href="vivo_theme_files/ie7.css" /><![endif]-->
+  <!--[if (gte IE 6)&(lte IE 8)]><script type="text/javascript" src="vivo_theme_files/selectivizr.js"></script><![endif]-->
+</head>
+
+<body class="search">
+
+  <header id="branding" role="banner">
+    <h1 class="vivo-logo"><a title="VIVO | enabling national networking of scientists" href="#"><span class="displace">VIVO</span></a></h1>
+
+    <nav role="navigation">
+      <ul id="header-nav" role="list">
+        <li role="listitem"><a title="log in to manage this site" href="#">Log in</a></li>
+        <li role="listitem"><a href="#">About</a></li>
+        <li role="listitem"><a href="#" target="blank">Support</a></li>
+        <li role="listitem"><a href="#">Index</a></li>
+      </ul>
+    </nav>
+
+    <section id="search" role="region">
+      <fieldset>
+        <legend>Search form</legend>
+
+        <form id="search-form" action="/search" name="search" role="search"> 
+          <input type="hidden" name="flag1" value="1" /> 
+
+          <div id="search-field">
+            <input type="text" name="querytext" class="search-vivo" value="agriculture" />
+            <input type="submit" value="Search" class="search">
+          </div>
+        </form>
+      </fieldset>
+    </section>
+  </header>        
+
+  <nav role="navigation">
+    <ul id="main-nav" role="list">
+      <li role="listitem"><a href="#" >Home</a></li>
+      <li role="listitem"><a href="#" >People</a></li>
+      <li role="listitem"><a href="#" >Organizations</a></li>
+      <li role="listitem"><a href="#" >Research</a></li>
+      <li role="listitem"><a href="#" >Events</a></li>
+    </ul>
+  </nav>
+
+  <div id="wrapper-content" role="main">        
+
+    <!--[if lte IE 8]>
+      <noscript>
+        <p class="ie-alert">This site uses HTML elements that are not recognized by Internet Explorer 8 and below in the absence of JavaScript. As a result, the site will not be rendered appropriately. To correct this, please either enable JavaScript, upgrade to Internet Explorer 9, or use another browser.</p>
+      </noscript>
+    <![endif]-->        
+
+    <h2>Search results</h2>
+    <div id="ajax-search">
+      <form id="ajax-search-form" action="/">
+        <input id="ajax-search-text" name="q" type="text" value="" />
+        <input id="ajax-search-submit" class="button small" name="submit" type="submit" value="Search" />
+      </form>
+    </div>
+
+    <div id="search-controls">
+      <div id="search-categories"></div>
+
+      <div class="facet" id="search-facet-1"></div>
+      <div class="facet facet-popup" id="search-facet-1-popup" style="display: none;"></div>
+
+      <div class="facet collapsed" id="search-facet-2"></div>
+      <div class="facet facet-popup" id="search-facet-2-popup" style="display: none;"></div>
+
+      <div class="facet collapsed" id="search-facet-3"></div>
+      <div class="facet facet-popup" id="search-facet-3-popup" style="display: none;"></div>
+
+      <div class="facet collapsed" id="search-facet-4"></div>
+      <div class="facet facet-popup" id="search-facet-4-popup" style="display: none;"></div>
+    </div>
+
+    <div id="search-results">
+      <div id="results-header"></div>
+      <div id="results"></div>
+      <div id="pagination">
+        <ul id="pager"></ul>
+      </div>
+    </div>
+
+    <div style="clear:both"></div>
+
+  </div>
+
+  <footer role="contentinfo">
+    <p class="copyright">
+      <small>&copy;2011 VIVO Project | <a class="terms" href="#">Terms of Use</a></small> | Powered by <a class="powered-by-vivo" href="http://vivoweb.org" target="_blank"><strong>VIVO</strong></a>
+    </p>
+
+    <nav role="navigation">
+      <ul id="footer-nav" role="list">
+        <li role="listitem"><a href="#">About</a></li>
+        <li role="listitem"><a href="#" target="blank">Support</a></li>
+      </ul>
+    </nav>
+  </footer>
+
+  </body>
+</html>
