@@ -4,10 +4,10 @@ var Manager;
 
 // The "Show all" popups for facets are a separate type of widget. Functionally they are very similar
 // to the facet widgets, but they retrieve unlimited numbers of facet items from Solr. Because this can
-// severely impact the app's performance, so these widgets are not loaded by default. Instead they get
+// severely impact the app's performance, these widgets are not loaded by default. Instead they get
 // attached to the Manager dynamically. 
 
-// *** Internal IDs for popups should be the same as the facet, with "_popup" added to the end ***
+// *** Internal IDs for popups should be the same as the facet, with "_popup" appended ***
 
 var popups = {};
 
