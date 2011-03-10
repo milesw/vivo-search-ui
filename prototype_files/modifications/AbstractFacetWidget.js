@@ -46,6 +46,15 @@ AjaxSolr.AbstractFacetWidget = AjaxSolr.AbstractWidget.extend(
    * @type Boolean
    */
   allowMultipleValues: true,
+  
+  /**
+   * (mw542) Exclude these tags from the filter query
+   *
+   * @field
+   * @public
+   * @type Array Tag names to exclude
+   */
+  exclude: [],
 
   /**
    * Initialize function.
@@ -65,7 +74,9 @@ AjaxSolr.AbstractFacetWidget = AjaxSolr.AbstractWidget.extend(
       value: this.field,
     });
     if (this.tagAndExclude) {
-      facetParam.local('ex', this.id);
+      // (mw542): Modified to allow additional tag exclusions to be piped in
+      var exclusions = (this.exclude.length > 0) ? ','+this.exclude.join(',') : '';
+      facetParam.local('ex', this.id + exclusions);
     }
     this.manager.store.add(facetParam.name, facetParam);
 

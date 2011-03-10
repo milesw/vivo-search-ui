@@ -43,11 +43,27 @@ AjaxSolr.GroupFacet = AjaxSolr.AbstractFacetWidget.extend({
   
   
   /**
+   * Make the type of result available for other widgets to use
+   */
+  beforeRequest: function() {
+    resultType = 'results';
+    if (key = this.manager.store.findByKey('fq', this.field)) {
+      var group = this.manager.store.params['fq'][key];
+      if (groups[group.value] !== undefined) {
+        resultType = groups[group.value].name.toLowerCase();
+      }
+    }
+  },
+  
+  
+  /**
    * Build the groups facet
    */
   afterRequest: function () {
     var facets = this.facets();
     var counts = {};
+    
+    // console.log(this.manager.response);
     
     // Add newly returned counts to our group list
     if (facets.length != 0) {
@@ -58,16 +74,24 @@ AjaxSolr.GroupFacet = AjaxSolr.AbstractFacetWidget.extend({
     
     var active = this.getActive();
     
-    // The real count for 'all' is getting pulled from the 'type' facet, by getting the count for owl:Thing
+    // The count for 'All' is the sum of results for each institution
     // This is a hacky workaround since we don't get a count for 'All' with the rest of the facet counts
-    var total = (this.manager.response.facet_counts.facet_fields.type !== undefined) ? this.manager.response.facet_counts.facet_fields.type['http://www.w3.org/2002/07/owl#Thing'] : 0;
+    var total = 0;
+    if (this.manager.response.facet_counts.facet_fields.siteURL !== undefined) {
+      var sites = this.manager.response.facet_counts.facet_fields.siteURL;
+      for (var site in sites) {
+        total += sites[site];
+      }
+    }
+    // (this.manager.response.facet_counts.facet_fields.siteURL !== undefined) ? this.manager.response.facet_counts.facet_fields.type['http://www.w3.org/2002/07/owl#Thing'] : 0;
     
     var list = $('<ul></ul>').addClass('search-categories-list').append(AjaxSolr.theme('category_link', 'All', total, (active == 'all') ? true : false, this.allResultsClickHandler()));
     
-    for (var uri in groups) {
-      var count = (counts[uri] !== undefined) ? counts[uri] : 0;
-      var activeClass = (uri == active) ? true : false;
-      list.append(AjaxSolr.theme('category_link', groups[uri].name, count, activeClass, this.clickHandler(groups[uri])));
+    for (var name in groups) {
+      var count = (counts[name] !== undefined) ? counts[name] : 0;
+      var activeClass = (name == active) ? true : false;
+      // console.log(activeClass);
+      list.append(AjaxSolr.theme('category_link', groups[name].name, count, activeClass, this.clickHandler(groups[name])));
     }
     
     $(this.target).empty().append(list);
@@ -85,12 +109,13 @@ AjaxSolr.GroupFacet = AjaxSolr.AbstractFacetWidget.extend({
       value: facet.value,
     });
     if (this.tagAndExclude) {
-      param.local('tag', this.field);
+      param.local('tag', this.id);
     }
 
     return function () {
+      
       // Remove any popup widgets which will be causing
-      // lots of extra facet data to be requested
+      // lots of extra facet data to get requested
       
       // Unbind popup widgets from Manager
       for (var id in self.manager.widgets) {
@@ -101,8 +126,8 @@ AjaxSolr.GroupFacet = AjaxSolr.AbstractFacetWidget.extend({
       // Kill any lingering popups in the DOM
       $('.ui-dialog-content').dialog('destroy');
       
-      // Remove all other filter queries before changing classgroups
-      self.manager.store.remove('fq');
+      // Clear out existing filters
+      self.manager.store.removeByKey('fq', 'type_label');
       
       // Don't run requests if there is no query text
       var q = self.manager.store.get('q');
@@ -140,8 +165,8 @@ AjaxSolr.GroupFacet = AjaxSolr.AbstractFacetWidget.extend({
   getActive: function() {
     var active = 'all';
     if (keys = this.manager.store.findByKey('fq', this.field)) {
-      for (var key in keys) {
-        active = this.manager.store.params['fq'][key].value;
+      for (var i=0; i<keys.length; i++) {
+        active = this.manager.store.params['fq'][keys[i]].value;
       }
     }
     return active;

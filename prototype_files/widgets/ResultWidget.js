@@ -38,7 +38,8 @@ AjaxSolr.ResultWidget = AjaxSolr.AbstractWidget.extend({
         var highlighted = this.manager.response.highlighting[doc.URI].ALLTEXTUNSTEMMED;
         snippet = '... ' + highlighted.join(' ... ') + ' ...';
       };
-      list.append($('<li/>').append(AjaxSolr.theme('result', doc, snippet)));
+      
+      list.append($('<li/>').append(AjaxSolr.theme('result', doc, snippet, nationalSearch)));
     }
     
     target.append(list);

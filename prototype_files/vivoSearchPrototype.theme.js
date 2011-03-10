@@ -28,6 +28,7 @@ AjaxSolr.theme.prototype.category_link = function (name, count, active, handler)
  */
 AjaxSolr.theme.prototype.facet_checkbox = function (name, count, checked, cssClass, id, handler) {
   var text = (count > 0) ? name+' ('+count+')' : name;
+  if (count == 0) cssClass += ' empty';
   var checkbox = $('<input type="checkbox" />').attr('id', id).attr('name', name).change(handler);
   var label = $('<label></label>').addClass('facet-item-label').attr('for', id).text(text);
   if (checked) {
@@ -41,13 +42,18 @@ AjaxSolr.theme.prototype.facet_checkbox = function (name, count, checked, cssCla
  *
  * @param {Object} doc Solr document
  * @param {String} snippet Highlighted text snippet
+ * @param {Boolean} national Where this is a national search result
  */
-AjaxSolr.theme.prototype.result = function (doc, snippet) {
+AjaxSolr.theme.prototype.result = function (doc, snippet, national) {
   var output = '<strong><a href="'+doc.URI+'">'+doc.name+'</a> </strong>';
   if (doc.moniker !== undefined) {
     output += '<em class="result-moniker"> '+doc.moniker+'</em>';
   }
   output += '<p>' + snippet + '</p>';
+  if (national) {
+    // output += '<a href="'+doc.siteURL+'" class="site-name">'+doc.siteName+'</span>';
+    output += '<span class="site-name">'+doc.siteName+'</span>';
+  }
   // output += '<em class="uri">' + doc.URI + '</em>';
   return output;
 };
