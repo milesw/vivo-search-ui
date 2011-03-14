@@ -48,7 +48,7 @@ var nationalSearch = false;
     'f.siteName.facet.mincount': '0', // Breaks when evaluating zero as a number
     'hl': true,
     'hl.snippets': 2,
-    'hl.fl': 'ALLTEXTUNSTEMMED',
+    'hl.fl': 'alltext',
     'hl.fragsize': 120,
     'rows': 10,
     'json.nl': 'map'
