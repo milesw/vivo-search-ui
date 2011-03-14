@@ -34,8 +34,8 @@ AjaxSolr.ResultWidget = AjaxSolr.AbstractWidget.extend({
     for (var i = 0, l = this.manager.response.response.docs.length; i < l; i++) {
       var doc = this.manager.response.response.docs[i];
       var snippet = '';
-      if (this.manager.response.highlighting && this.manager.response.highlighting[doc.URI].ALLTEXTUNSTEMMED !== undefined) {
-        var highlighted = this.manager.response.highlighting[doc.URI].ALLTEXTUNSTEMMED;
+      if (this.manager.response.highlighting && this.manager.response.highlighting[doc.URI].alltext !== undefined) {
+        var highlighted = this.manager.response.highlighting[doc.URI].alltext;
         snippet = '... ' + highlighted.join(' ... ') + ' ...';
       };
       
