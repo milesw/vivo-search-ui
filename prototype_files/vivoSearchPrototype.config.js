@@ -26,7 +26,7 @@ var groups = {
 // Variable that represents the current search scope
 var nationalSearch = false;
 
-var prototypeURL = 'http://vivo.dev:8080';
+var prototypeURL = 'http://localhost:8080';
 
 (function ($) {
 
