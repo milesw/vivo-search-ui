@@ -1,0 +1,27 @@
+From 087ace8f9ef92edf2d6a4f1b94711c27e068a059 Mon Sep 17 00:00:00 2001
+From: milesw <milesw@453524.no-reply.drupal.org>
+Date: Sun, 10 Apr 2011 22:15:45 +0700
+Subject: [PATCH] Modified search controller to use a single template
+
+---
+ .../FreemarkerPagedSearchController.java           |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/webapp/src/edu/cornell/mannlib/vitro/webapp/search/controller/FreemarkerPagedSearchController.java b/webapp/src/edu/cornell/mannlib/vitro/webapp/search/controller/FreemarkerPagedSearchController.java
+index 5eafbd6..9160f56 100644
+--- a/webapp/src/edu/cornell/mannlib/vitro/webapp/search/controller/FreemarkerPagedSearchController.java
++++ b/webapp/src/edu/cornell/mannlib/vitro/webapp/search/controller/FreemarkerPagedSearchController.java
+@@ -854,8 +854,8 @@ public class FreemarkerPagedSearchController extends FreemarkerHttpServlet imple
+         
+         //setup HTML format
+         resultsToTemplates.put(Result.PAGED, "search-pagedResults.ftl");
+-        resultsToTemplates.put(Result.FORM, "search-form.ftl");
+-        resultsToTemplates.put(Result.ERROR, "search-error.ftl");
++        resultsToTemplates.put(Result.FORM, "search-pagedResults.ftl");
++        resultsToTemplates.put(Result.ERROR, "search-pagedResults.ftl");
+         resultsToTemplates.put(Result.BAD_QUERY, "search-badQuery.ftl");        
+         templateTable.put(Format.HTML, Collections.unmodifiableMap(resultsToTemplates));
+         
+-- 
+1.7.3.1
+

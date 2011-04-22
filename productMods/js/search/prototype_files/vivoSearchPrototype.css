@@ -1,0 +1,263 @@
+#ajax-search { 
+  margin: 10px 0 20px;
+}
+
+#ajax-search-text { width: 220px; }
+
+#retain-filters {
+  font-size: 12px;
+  display: inline;
+  padding-left: 10px;
+}
+
+#retain-filters label {
+  display: inline;
+  padding-left: 4px;
+}
+
+#search-controls {
+  float: left;
+  width: 31%;
+}
+
+#search-results {
+  float: right;
+  width: 65%;
+  min-height: 800px;
+  border-left: 1px solid #ddd;
+  padding-left: 24px;
+}
+
+#search-controls label { display: inline; }
+
+#search-categories {
+  padding-bottom: 20px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+#search-categories a {
+  color: #2A5E7A;
+  display: block;
+  font-size: 15px;
+  padding: 4px 12px 2px 12px;
+  text-decoration: none;
+}
+
+#search-categories .active {
+  background: #185E7C;
+  border-radius: 8px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+}
+
+#search-categories .active a { color: #fff; }
+
+#search-categories .empty a { color: #B9D8E6; }
+
+#search-categories span {
+  font-size: 10px;
+  font-weight: normal;
+  color: #9BB5C0;
+  padding-left: 1px;
+  position: relative;
+  top: -1px;
+}
+
+#search-categories .active span { color: #B9D8E6; }
+
+#network-facet {
+  padding: 10px 0;
+}
+
+#network-facet p {
+  margin: 1em 0;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+#network-facet li {
+  padding-left: 18px;
+}
+
+.active-facet {
+  padding-bottom: 20px;
+/*  border-bottom: 1px solid #ddd;*/
+}
+
+.local-search .active-facet {
+  border-bottom: 1px solid #ddd;
+}
+
+.national-search #network-facet {
+  padding: 0 0 20px 0;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.facet-header {
+  color: #333;
+  font-weight: bold;
+  font-size: 16px;
+  padding-bottom: 0;
+}
+
+.facet {
+  font-size: 10px;
+  line-height: 14px;
+}
+
+.facet input {
+  font-size: 14px;
+  margin-left: -15px;
+}
+
+.facet ul {
+  margin-top: 12px;
+  margin-bottom: 8px;
+}
+
+.facet li {
+  padding-left: 32px;
+  margin-bottom: 0.2em;
+}
+
+.facet.collapsed ul { display: none; }
+
+.facet-showall {
+  line-height: 20px;
+  margin-left: -15px;
+}
+
+.facet.collapsed .facet-showall { display: none; }
+
+.facet .facet-title {
+  font-size: 12px;
+  font-weight: bold;
+  padding: 16px 0 0 0;
+  line-height: 14px;
+  color: #333;
+}
+
+.facet h3.facet-title { cursor: pointer; }
+
+.facet .facet-title .icon {
+  float: left;
+  width: 16px;
+  height: 16px;
+  background-image: url(/js/jquery-ui/css/smoothness/images/ui-icons_222222_256x240.png);
+  background-position: -64px -16px;;
+}
+
+.facet.collapsed .facet-title .icon { background-position: -32px -16px; }
+
+.facet .empty label { color: #aaa; }
+
+.facet .deselect label,
+.facet .select-any label {
+  color: #595B5B;
+  font-weight: bold;
+}
+
+#results-header {
+  font-size: 12px;
+  font-style: italic;
+  float: right;
+  position: relative;
+  top: -28px;
+}
+
+.results-list {
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.results-list a { 
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.results-list li { margin-bottom: 2.5em; }
+
+.results-list p { margin: 2px 0; }
+
+.results-list .result-moniker {
+  color: #aaa;
+  font-style: italic;
+  word-wrap: break-word;
+  padding: 0 2px;
+}
+
+.results-list a,
+.results-list .result-moniker { line-height: 18px; }
+
+.results-list .highlight { font-weight: bold; }
+
+.results-list .site-name {
+  font-size: 10px;
+  line-height: 12px;
+  color: #8C9F26;
+  text-decoration: none;
+}
+
+.empty-results ul { margin-top: 10px; }
+
+.empty-results li {
+  list-style-type: disc;
+  margin: 4px 0 0 24px;
+}
+
+#pagination {
+  padding-top: 30px;
+  text-align: center;
+}
+
+#pager li {
+  font-size: 12px;
+  line-height: 18px;
+  display: inline;
+  padding: 0 4px;
+  list-style-type: none;
+}
+
+#pager .pager-current,
+#pager a {
+  padding: 3px 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+#pager .pager-current { border: 1px solid #ddd; }
+
+#pager a { background: #DDEBF4; }
+
+#pager .pager-next {
+  background: none;
+  padding-left: 20px;
+}
+
+#pager .pager-prev {
+  background: none;
+  padding-right: 20px;
+}
+
+.pager-disabled { display: none; }
+
+.ui-widget { font-size: 14px !important; }
+
+.ui-dialog {
+  -moz-box-shadow: 0px 0px 10px #919191;
+  -webkit-box-shadow: 0px 0px 18px #777777;
+  box-shadow: 0px 0px 10px #919191;
+}
+
+.ui-dialog label { display: inline; }
+
+.ui-dialog .facet li {
+  padding-left: 22px;
+  font-size: 10px;
+}
+
+.ui-dialog .facet input { font-size: 14px; }
