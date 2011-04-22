@@ -5,7 +5,7 @@ var Manager;
 // The "Show all" popups for facets are a separate type of widget. Functionally they are very similar
 // to the facet widgets, but they retrieve unlimited numbers of facet items from Solr. Because this can
 // severely impact the app's performance, these widgets are not loaded by default. Instead they get
-// attached to the Manager dynamically. 
+// attached to the Manager dynamically.
 
 // *** Internal IDs for popups should be the same as the facet, with "_popup" appended ***
 var popups = {};
@@ -26,19 +26,21 @@ var groups = {
 // Variable that represents the current search scope
 var nationalSearch = false;
 
+var prototypeURL = 'http://vivo.dev:8080';
+
 (function ($) {
 
   $(function () {
-    
+
   Manager = new AjaxSolr.Manager({
     solrUrl: 'http://localhost:8080/solr/vivoprototype/',
     servlet: 'search'
   });
-  
-  Manager.setStore(new AjaxSolr.ParameterHashStore()); 
-  
+
+  Manager.setStore(new AjaxSolr.ParameterHashStore());
+
   Manager.store.exposed = ['fq','q','start'];
-  
+
   var params = {
     'facet': true,
     'fl': ['name','URI','moniker','siteName','siteURL'],
@@ -56,14 +58,14 @@ var nationalSearch = false;
   for (var name in params) {
     Manager.store.addByValue(name, params[name]);
   }
-  
+
   // Search form(s)
   Manager.addWidget(new AjaxSolr.SearchText({
     id: 'search',
     target: '#ajax-search-form',
     secondaryTarget: '#search-form' // Site-wide search form
   }));
-  
+
   // Results area
   Manager.addWidget(new AjaxSolr.ResultWidget({
     id: 'results',
@@ -89,7 +91,7 @@ var nationalSearch = false;
       $(this.target).empty();
     }
   }));
-  
+
   // Classgroup menu
   Manager.addWidget(new AjaxSolr.GroupFacet({
     id: 'classgroup',
@@ -100,7 +102,7 @@ var nationalSearch = false;
     tagAndExclude: true,
     allowMultipleValues: false
   }));
-  
+
   // Local / national scope
   Manager.addWidget(new AjaxSolr.NationalNetworkFacet({
     id: 'national_search',
@@ -112,7 +114,7 @@ var nationalSearch = false;
     allowMultipleValues: true,
     limit: 100,
   }));
-  
+
   // Facet: "Type"
   Manager.addWidget(new AjaxSolr.MultiCheckboxFacet({
     id: 'type_label',
@@ -132,11 +134,11 @@ var nationalSearch = false;
     allowMultipleValues: true,
     limit: 9999
   });
-  
+
   Manager.init();
-  
+
   // Run a search after the page loads
   Manager.doRequest(0);
-  
+
   });
 })(jQuery);

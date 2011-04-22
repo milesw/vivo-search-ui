@@ -65,6 +65,9 @@ AjaxSolr.NationalNetworkFacet = AjaxSolr.MultiCheckboxFacet.extend({
         if (sites[site] > 0) numSites++;
       }
       
+      // Don't display the network teaser if there are no results there.
+      if (total < 1) return;
+      
       // Modify relevant classes, move facet lower in layout
       $('#search-controls').removeClass('national-search').addClass('local-search');
       $('#network-facet').remove().appendTo('#search-controls');

@@ -45,7 +45,9 @@ AjaxSolr.theme.prototype.facet_checkbox = function (name, count, checked, cssCla
  * @param {Boolean} national Where this is a national search result
  */
 AjaxSolr.theme.prototype.result = function (doc, snippet, national) {
-  var output = '<strong><a href="'+doc.URI+'">'+doc.name+'</a> </strong>';
+  var URI = '' + doc.URI;
+  URI = URI.replace('http://vivo.cornell.edu', prototypeURL);
+  var output = '<strong><a href="'+URI+'">'+doc.name+'</a> </strong>';
   if (doc.moniker !== undefined) {
     output += '<em class="result-moniker"> '+doc.moniker+'</em>';
   }
@@ -62,7 +64,7 @@ AjaxSolr.theme.prototype.result = function (doc, snippet, national) {
  * Theme the spinner image displayed during AJAX calls
  */
 AjaxSolr.theme.prototype.loader_image = function() {
-  return '<img style="display:block;margin:0 auto;padding:50px 0" src="prototype_files/loading-squarecircle.gif" />';
+  return '<img style="display:block;margin:0 auto;padding:50px 0" src="/js/search/prototype_files/loading-squarecircle.gif" />';
 }
 
 /**

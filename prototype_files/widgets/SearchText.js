@@ -12,6 +12,8 @@ AjaxSolr.SearchText = AjaxSolr.AbstractTextWidget.extend({
     
     // Set the initial form value from either the URL or the site-wide search form
     var value = Manager.store.get('q').val() || $(this.secondaryTarget).find('input:text').val();
+    value = value || this.getUrlParam('querytext');
+    
     self.set(value);
     
     // Set the value of the AJAX search form
@@ -32,6 +34,15 @@ AjaxSolr.SearchText = AjaxSolr.AbstractTextWidget.extend({
       }
       return false;
     });
+  },
+  
+  
+  /**
+   * Get the value of a particular URL parameter
+   */
+  getUrlParam: function (name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
   },
   
   
