@@ -1,18 +1,22 @@
-#ajax-search { 
-  margin: 10px 0 20px;
+#results-title {
+  margin-bottom: 16px;
 }
 
-#ajax-search-text { width: 220px; }
+#results-title em {
+  color: #064D68;
+  font-weight: bold;
+}
 
 #retain-filters {
-  font-size: 12px;
-  display: inline;
-  padding-left: 10px;
+  font-size: 10px;
+  line-height: 10px;
+  float: left;
 }
 
 #retain-filters label {
   display: inline;
   padding-left: 4px;
+  color: #ddd;
 }
 
 #search-controls {
@@ -172,7 +176,7 @@
   line-height: 16px;
 }
 
-.results-list a { 
+.results-list a {
   font-weight: bold;
   font-size: 14px;
 }

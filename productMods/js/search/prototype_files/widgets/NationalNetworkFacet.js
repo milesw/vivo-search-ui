@@ -8,12 +8,12 @@ AjaxSolr.NationalNetworkFacet = AjaxSolr.MultiCheckboxFacet.extend({
    */
   init: function () {
     this.setupStore();
-    
+
     // Default to local search on startup
     nationalSearch = false;
-    
+
     // Examine the parameters pulled from the URL and look for params
-    // for this facet. If there is only one value and it's "Cornell University" 
+    // for this facet. If there is only one value and it's "Cornell University"
     // then we will assume local search. Otherwise, make it national.
     if (keys = this.manager.store.findByKey('fq', this.field)) {
       var siteNames = this.manager.store.params['fq'][keys[0]].value;
@@ -50,12 +50,12 @@ AjaxSolr.NationalNetworkFacet = AjaxSolr.MultiCheckboxFacet.extend({
    */
   afterRequest: function () {
     var target = $(this.target);
-    
+
     // Always empty the facet first
     target.empty();
 
     // *** LOCAL SEARCH ***
-    
+
     if (nationalSearch == false) {
       var total = 0;
       var numSites = 0;
@@ -64,40 +64,40 @@ AjaxSolr.NationalNetworkFacet = AjaxSolr.MultiCheckboxFacet.extend({
         total += sites[site];
         if (sites[site] > 0) numSites++;
       }
-      
+
       // Don't display the network teaser if there are no results there.
       if (total < 1) return;
-      
+
       // Modify relevant classes, move facet lower in layout
       $('#search-controls').removeClass('national-search').addClass('local-search');
       $('#network-facet').remove().appendTo('#search-controls');
-      
+
       // Accessing another widget directly might be a bad idea...
       var resultType = this.manager.widgets['classgroup'].getActive();
       var queryText = this.manager.store.get('q').val();
-      
+
       // Build a message and link for national network results
       var message = $('<p>').text('Found ');
       var institutions = (numSites > 1) ? 'institutions' : 'institution';
       if (resultType == 'all') {
         var resultText = (total > 1) ? 'matches' : 'match';
         var link = $('<a href="#">').text(total+' '+resultText).click(this.changeScope());
-        message.append(link).append(' for "'+queryText+'" from '+numSites+' '+institutions+' in the national network.')
+        message.append(link).append(' for "'+queryText+'" from '+numSites+' '+institutions+' in the national VIVO network.')
       }
       else {
         var resultText = (total > 1) ? resultType.toLowerCase() : 'result';
         var link = $('<a href="#">').text(total+' '+resultText).click(this.changeScope());
-        message.append(link).append(' matching "'+queryText+'" from '+numSites+' '+institutions+' in the national network.')
-        
+        message.append(link).append(' matching "'+queryText+'" from '+numSites+' '+institutions+' in the national VIVO network.')
+
       }
-      
+
       // Add the facet heading
       var heading = $('<h2></h2>').addClass('facet-header').text(this.title);
-      
+
       target.append(message).prepend(heading);
     }
     else {
-      
+
     // *** NATIONAL SEARCH ***
 
       // Modify relevant classes, move facet upward in the layout
@@ -112,7 +112,7 @@ AjaxSolr.NationalNetworkFacet = AjaxSolr.MultiCheckboxFacet.extend({
     }
   },
 
-  
+
   /**
    * Click handler to switch between local and national search
    */
@@ -120,13 +120,13 @@ AjaxSolr.NationalNetworkFacet = AjaxSolr.MultiCheckboxFacet.extend({
     var self = this;
     return function () {
       $(this).blur();
-      
+
       nationalSearch = (nationalSearch == true) ? false : true;
-      
+
       // Clear out existing parameters, except classgroup
       self.manager.store.removeByKey('fq', 'siteName');
       self.manager.store.removeByKey('fq', 'type_label');
-      
+
       self.manager.doRequest(0);
       return false;
     }

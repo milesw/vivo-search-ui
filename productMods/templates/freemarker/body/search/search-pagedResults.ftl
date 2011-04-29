@@ -2,13 +2,7 @@
 
 <#-- Template for displaying paged search results -->
 
-<h2>Search results</h2>
-<div id="ajax-search">
-  <form id="ajax-search-form" action="/">
-    <input id="ajax-search-text" name="q" type="text" value="" />
-    <input id="ajax-search-submit" class="button small" name="submit" type="submit" value="Search" />
-  </form>
-</div>
+<h2 id="results-title">Search results</h2>
 
 <div id="search-controls">
 
@@ -41,7 +35,7 @@
 <div style="clear:both"></div>
 
 ${stylesheets.add('<link rel="stylesheet" href="${urls.base}/css/search.css" />',
-                  '<link rel="stylesheet" href="${urls.base}/js/jquery-ui/css/smoothness/jquery-ui-1.8.4.custom.css" />',
+                  '<link rel="stylesheet" href="${urls.base}/js/jquery-ui/css/smoothness/jquery-ui-1.8.9.custom.css" />',
                   '<link rel="stylesheet" href="${urls.base}/js/search/prototype_files/vivoSearchPrototype.css" />')}
 
 ${headScripts.add('<script type="text/javascript" src="${urls.base}/js/jquery-ui/js/jquery-ui-1.8.9.custom.min.js"></script>')}

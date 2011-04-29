@@ -26,7 +26,7 @@ var groups = {
 // Variable that represents the current search scope
 var nationalSearch = false;
 
-var prototypeURL = 'http://localhost:8080';
+var prototypeURL = 'http://localhost:8080/vivo';
 
 (function ($) {
 
@@ -62,8 +62,7 @@ var prototypeURL = 'http://localhost:8080';
   // Search form(s)
   Manager.addWidget(new AjaxSolr.SearchText({
     id: 'search',
-    target: '#ajax-search-form',
-    secondaryTarget: '#search-form' // Site-wide search form
+    target: '#search-form',
   }));
 
   // Results area
@@ -108,7 +107,7 @@ var prototypeURL = 'http://localhost:8080';
     id: 'national_search',
     target: '#network-facet',
     field: 'siteName',
-    title: 'VIVO Network',
+    title: 'National VIVO results',
     exclude: ['type_label','local_search'],
     tagAndExclude: true,
     allowMultipleValues: true,
