@@ -8,34 +8,34 @@ AjaxSolr.MultiCheckboxFacet = AjaxSolr.AbstractFacetWidget.extend({
    */
   afterRequest: function () {
     var target = $(this.target);
-    
+
     // Always empty the facet first
     target.empty().removeClass('active-facet');
-    
+
     // Don't display anything if a classgroup has not been chosen,
     // unless this is a local/national search facet
     if (!this.manager.store.findByKey('fq', 'classgroup') && this.field != 'siteName') {
       return;
     };
-    
+
     // Don't continue unless we have results and facet items
     if (this.manager.response.response.numFound && (list = this.buildFacet())) {
-      
+
       // Bind expand/collapse behavior to facet titles
-      var heading = $('<h3></h3>').addClass('facet-title').text(this.title).prepend('<span class="icon"></span>').click(function() {
+      var heading = $('<h4></h4>').addClass('facet-title').text(this.title).prepend('<span class="icon"></span>').click(function() {
         $(this).parents('.facet').toggleClass('collapsed');
       });
       target.append(heading).append(list).addClass('active-facet');
 
       // Add a main facet heading if this is the first facet
       if (this.target == '#search-facet-1') {
-        target.prepend($('<h2></h2>').addClass('facet-header').text('Show '+resultType+' by'));
+        target.prepend($('<h3></h3>').addClass('facet-header').text('Show '+resultType+' by'));
       }
     }
   },
-  
-  
-  /** 
+
+
+  /**
    * Build the actual list of facet items
    */
   buildFacet: function() {
@@ -43,15 +43,15 @@ AjaxSolr.MultiCheckboxFacet = AjaxSolr.AbstractFacetWidget.extend({
     var activeFacets = this.getActive();
     var limit = (this.limit != null) ? this.limit : 5;
     var includeShowallLink = false;
-    
+
     // Don't continue if there is nothing to work with
     if (facets < 1 && activeFacets < 1) return false;
-    
+
     var list = $('<ul></ul>');
     list.append(AjaxSolr.theme('facet_checkbox', 'Any', 0, this.isEmpty(), 'select-any', this.id+'-all', this.allResultsClickHandler()));
 
     var count = 1; // Count used for #id values
-    
+
     // Loop through facets that came back with Solr response
     if (facets.length != 0) {
       for (i=0; i<facets.length; i++) {
@@ -60,7 +60,7 @@ AjaxSolr.MultiCheckboxFacet = AjaxSolr.AbstractFacetWidget.extend({
         var checked = false;
         var handler = this.clickHandler();
         var activeIndex = AjaxSolr.inArray(title, activeFacets);
-        
+
         // Add the initial (5) checkboxes
         if (i < limit) {
           if (activeIndex > -1) {
@@ -77,15 +77,15 @@ AjaxSolr.MultiCheckboxFacet = AjaxSolr.AbstractFacetWidget.extend({
           count++;
         }
       }
-      
-      // Each facet widget should have an item limit set in its config. In AbstractFacetWidget, 
+
+      // Each facet widget should have an item limit set in its config. In AbstractFacetWidget,
       // we add 1 to this limit when telling Solr how many facet items to return. If the number
-      // of items returned by Solr is more than our set limit, we can assume there are additional 
+      // of items returned by Solr is more than our set limit, we can assume there are additional
       // facet items to offer a user, and therefore include a "Show all" link.
       if (facets.length > limit) includeShowallLink = true;
     }
-    
-    // There may still be leftovers that were previously selected 
+
+    // There may still be leftovers that were previously selected
     // but are not part of the response and no longer have facet counts
     if (activeFacets.length > 0) {
       for (var i=0; i < activeFacets.length; i++) {
@@ -94,14 +94,14 @@ AjaxSolr.MultiCheckboxFacet = AjaxSolr.AbstractFacetWidget.extend({
         list.append(AjaxSolr.theme('facet_checkbox', activeFacets[i], 0, true, '', id, handler));
       }
     }
-    
+
     if (popups[this.id] !== undefined && includeShowallLink) {
       list.append($('<li></li>').append(AjaxSolr.theme('facet_showall_link', this.popupHandler())));
     }
-    
+
     return list;
   },
-  
+
 
   /**
    * Change handler for "Any" checkboxes
@@ -115,32 +115,32 @@ AjaxSolr.MultiCheckboxFacet = AjaxSolr.AbstractFacetWidget.extend({
       return false;
     }
   },
-  
-  
+
+
   /**
    * Click handler for "Show all" popup links
    */
   popupHandler: function() {
     var self = this;
     return function() {
-      
+
       // Only work if we have a popup availale
       if (popups[self.id] !== undefined) {
-        
+
         var widget = popups[self.id];
         var target = $(widget.target);
-        
+
         // Add popup to the manager if it's not already there,
         // then initialize and retrieve new facet data
         if (self.manager.widgets[self.id+'_popup'] === undefined) {
           self.manager.addWidget(widget);
           self.manager.widgets[widget.id].init();
-          
+
           // Retrieve new data using the same method as Manager.executeRequest()
           // but without triggering updates to other widgets
           target.append(AjaxSolr.theme('loader_image'));
-          jQuery.getJSON(self.manager.solrUrl + self.manager.servlet + '?' + self.manager.store.string() + '&wt=json&json.wrf=?', {}, function (data) { 
-            self.manager.response = data;  
+          jQuery.getJSON(self.manager.solrUrl + self.manager.servlet + '?' + self.manager.store.string() + '&wt=json&json.wrf=?', {}, function (data) {
+            self.manager.response = data;
             widget.afterRequest();
           });
         }
@@ -149,8 +149,8 @@ AjaxSolr.MultiCheckboxFacet = AjaxSolr.AbstractFacetWidget.extend({
       return false;
     }
   },
-  
-  
+
+
   /**
    * Change handler for facet checkboxes
    */
@@ -158,22 +158,22 @@ AjaxSolr.MultiCheckboxFacet = AjaxSolr.AbstractFacetWidget.extend({
     var self = this;
     return function() {
       $(this).blur();
-      
+
       // $('#dialog').dialog('close');
-      
+
       // Scan through facet and find all checked checkboxes
       var values = [];
       $(self.target).find('input:checked').not('.select-any input').each(function() {
         values.push($(this).attr('name'));
       });
-      
+
       // If all have been unchecked, reset the facet to 'Any'
       if (values.length < 1) {
         self.clear();
         self.manager.doRequest(0);
         return false;
       }
-      
+
       var param = new AjaxSolr.Parameter({
         name: 'fq',
         key: self.field,
@@ -181,19 +181,19 @@ AjaxSolr.MultiCheckboxFacet = AjaxSolr.AbstractFacetWidget.extend({
         filterType: 'subquery',
         operator: 'OR'
       });
-      
+
       if (self.tagAndExclude) {
         param.local('tag', self.id);
       }
-      
+
       if (self.set.call(self, param)) {
         self.manager.doRequest(0);
       }
       return false;
     }
   },
-  
-  
+
+
   /**
    * Get all active facet items for this facet
    */
@@ -214,8 +214,8 @@ AjaxSolr.MultiCheckboxFacet = AjaxSolr.AbstractFacetWidget.extend({
     }
     return facets;
   },
-  
-  
+
+
   /**
    * Override original function to prevent re-sorting of facets
    */

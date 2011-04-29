@@ -70,7 +70,7 @@ AjaxSolr.NationalNetworkFacet = AjaxSolr.MultiCheckboxFacet.extend({
 
       // Modify relevant classes, move facet lower in layout
       $('#search-controls').removeClass('national-search').addClass('local-search');
-      $('#network-facet').remove().appendTo('#search-controls');
+      // $('#network-facet').remove().appendTo('#search-controls');
 
       // Accessing another widget directly might be a bad idea...
       var resultType = this.manager.widgets['classgroup'].getActive();
@@ -92,7 +92,7 @@ AjaxSolr.NationalNetworkFacet = AjaxSolr.MultiCheckboxFacet.extend({
       }
 
       // Add the facet heading
-      var heading = $('<h2></h2>').addClass('facet-header').text(this.title);
+      var heading = $('<h3></h3>').addClass('facet-header').text(this.title);
 
       target.append(message).prepend(heading);
     }
@@ -102,10 +102,10 @@ AjaxSolr.NationalNetworkFacet = AjaxSolr.MultiCheckboxFacet.extend({
 
       // Modify relevant classes, move facet upward in the layout
       $('#search-controls').removeClass('local-search').addClass('national-search');
-      $('#network-facet').remove().insertAfter('#search-categories');
+      // $('#network-facet').remove().insertAfter('#search-categories');
 
       if (list = this.buildFacet()) {
-        var heading = $('<h2></h2>').addClass('facet-header').text(this.title);
+        var heading = $('<h3></h3>').addClass('facet-header').text(this.title);
         var scopeToggleLink = $('<a href="#">').text('« Search Cornell University only').click(this.changeScope());
         target.append(heading).append(list).append(scopeToggleLink);
       }
