@@ -1,5 +1,5 @@
 #results-title {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 #results-title em {
@@ -165,10 +165,27 @@
 
 #results-header {
   font-size: 12px;
-  font-style: italic;
-  float: right;
-  position: relative;
-  top: -28px;
+  line-height: 12px;
+  margin-bottom: 16px;
+/*  margin-left: -12px;*/
+/*  font-style: italic;*/
+/*  float: right;*/
+  text-align: right;
+/*  position: relative;*/
+  margin-top: -32px;
+}
+
+#results-header .other-results {
+/*  border-left: 1px dotted #bbb;*/
+  padding-left: 3px;
+/*  padding-left: 10px;*/
+}
+
+#results-header select {
+  width: 200px;
+  font-size: 10px;
+  line-height: 12px;
+  padding: 1px 0;
 }
 
 .results-list {

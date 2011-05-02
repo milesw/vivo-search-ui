@@ -78,15 +78,8 @@ var prototypeURL = 'http://localhost:8080/vivo';
     prevLabel: '&laquo; PREV',
     nextLabel: 'NEXT &raquo;',
     innerWindow: 1,
-    // Add the result counts outside the pager area
-    renderHeader: function (perPage, offset, total) {
-      // Update the element that holds result counts
-      if (this.manager.response.response.numFound > 0) {
-        $('#results-header').html($('<span/>').text(Math.min(total, offset + 1) + ' – ' + Math.min(total, offset + perPage) + ' of ' + total + ' ' + resultType));
-      }
-    },
     beforeRequest: function() {
-      $('#results-header').empty();
+      // $('#results-header').empty();
       $(this.target).empty();
     }
   }));
@@ -108,7 +101,7 @@ var prototypeURL = 'http://localhost:8080/vivo';
     target: '#network-facet',
     field: 'siteName',
     title: 'National VIVO results',
-    exclude: ['type_label','local_search'],
+    exclude: ['local_search'],
     tagAndExclude: true,
     allowMultipleValues: true,
     limit: 100,

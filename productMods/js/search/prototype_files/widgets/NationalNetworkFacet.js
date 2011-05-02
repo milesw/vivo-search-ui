@@ -42,6 +42,7 @@ AjaxSolr.NationalNetworkFacet = AjaxSolr.MultiCheckboxFacet.extend({
       }
       if (this.set.call(this, param));
     }
+    $('#results-header').empty();
   },
 
 
@@ -49,6 +50,8 @@ AjaxSolr.NationalNetworkFacet = AjaxSolr.MultiCheckboxFacet.extend({
    * Build the facet
    */
   afterRequest: function () {
+    this.updateHeader();
+
     var target = $(this.target);
 
     // Always empty the facet first
@@ -79,14 +82,14 @@ AjaxSolr.NationalNetworkFacet = AjaxSolr.MultiCheckboxFacet.extend({
       // $('#network-facet').remove().appendTo('#search-controls');
 
       // Accessing another widget directly might be a bad idea...
-      var resultType = this.manager.widgets['classgroup'].getActive();
+      resultType = this.manager.widgets['classgroup'].getActive();
       var queryText = this.manager.store.get('q').val();
 
       // Build a message and link for national network results
       var message = $('<p>').text('Found ');
       var institutions = (numSites > 1) ? 'institutions' : 'institution';
       if (resultType == 'all') {
-        var resultText = (total > 1) ? 'more matches' : 'more match';
+        var resultText = (total > 1) ? 'matches' : 'match';
         var link = $('<a href="#">').text(total+' '+resultText).click(this.changeScope());
         message.append(link).append(' for "'+queryText+'" from '+numSites+' other '+institutions+' in the national VIVO network.')
       }
@@ -134,6 +137,102 @@ AjaxSolr.NationalNetworkFacet = AjaxSolr.MultiCheckboxFacet.extend({
       self.manager.store.removeByKey('fq', 'type_label');
 
       self.manager.doRequest(0);
+      return false;
+    }
+  },
+
+  /**
+   * Display a result count and institution select menu at the top of the page
+   */
+  updateHeader: function() {
+    var total = this.manager.response.response.numFound;
+    var totalText = (total > 1) ? total+' results' : total+' result';
+
+    // Get all institutions and sort alphabetically
+    var institutions = this.facets();
+    institutions.sort(function(a, b) {
+      var A = a.value.toLowerCase(), B = b.value.toLowerCase();
+      if (A < B) return -1;
+      if (A > B) return 1;
+      return 0;
+    });
+
+    var activeInstitutions = this.getActive();
+
+    // Add up all the facet counts for other institutions
+    var counts = this.manager.response.facet_counts.facet_fields.siteName;
+    var allTotal = 0;
+    for (var site in counts) {
+      allTotal += counts[site];
+    }
+
+    // Create a select list.
+    var selectList = $('<select class="select-institution" />');
+    selectList.append('<option value="all">All VIVO institutions ('+allTotal+')</option>');
+    selectList.append('<option disabled="true">----------------------</option>');
+
+    // Add options for each institution, make them disabled if there is no count.
+    for (var i=0; i < institutions.length; i++) {
+      var institution = institutions[i].value;
+      var count = institutions[i].count;
+      if (count > 0) selectList.append('<option value="'+institution+'">'+institution+' ('+count+')</option>');
+      else selectList.append('<option value="'+institution+'" disabled="true">'+institution+'</option>');
+    }
+
+    // Determine which option should be active and remove the count for that option.
+    if (activeInstitutions.length == 0) {
+      // 1. All VIVO instititions
+      selectList.children('option[value="all"]').text('All VIVO institutions').attr('selected', true);
+    }
+    else if (activeInstitutions.length > 1) {
+      // 2. Multiple instititution selected from the checkbox facet.
+      selectList.prepend('<option disabled="true">----------------------</option>');
+      selectList.prepend('<option selected="true">'+activeInstitutions.length+' selected institutions</option>');
+    }
+    else if (activeInstitutions.length == 1)  {
+      // 3. Only a single instititution selected
+      target = activeInstitutions[0];
+      selectList.children('option[value="'+target+'"]').text(target).attr('selected', true);
+    }
+
+    if (total > 0) {
+      var handler = this.headerChangeHandler();
+      $('#results-header').html('<strong>'+totalText+'</strong> from ').append(selectList.change(handler));
+    }
+  },
+
+  /**
+   * Updates results after a new institution has been selected from the menu
+   */
+  headerChangeHandler: function() {
+    var self = this;
+    return function() {
+      var value = $('#results-header select option:selected').attr('value');
+
+      nationalSearch = true;
+
+      // 'All VIVO institutions' was selected
+      if (value == 'all') {
+        self.clear();
+        self.manager.doRequest(0);
+        return false;
+      }
+
+      var param = new AjaxSolr.Parameter({
+        name: 'fq',
+        key: self.field,
+        value: [value],
+        filterType: 'subquery',
+        operator: 'OR'
+      });
+
+      if (self.tagAndExclude) {
+        param.local('tag', self.id);
+      }
+
+      if (self.set.call(self, param)) {
+        self.manager.doRequest(0);
+      }
       return false;
     }
   }
