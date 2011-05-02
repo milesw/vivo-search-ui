@@ -59,10 +59,16 @@ AjaxSolr.NationalNetworkFacet = AjaxSolr.MultiCheckboxFacet.extend({
     if (nationalSearch == false) {
       var total = 0;
       var numSites = 0;
+
+      // Go through the siteName facet and gather an institution count
+      // and a result count.
       var sites = this.manager.response.facet_counts.facet_fields.siteName;
       for (var site in sites) {
-        total += sites[site];
-        if (sites[site] > 0) numSites++;
+        // Do not include Cornell in national result count
+        if (site !== 'Cornell University') {
+          total += sites[site];
+          if (sites[site] > 0) numSites++;
+        }
       }
 
       // Don't display the network teaser if there are no results there.
@@ -80,14 +86,14 @@ AjaxSolr.NationalNetworkFacet = AjaxSolr.MultiCheckboxFacet.extend({
       var message = $('<p>').text('Found ');
       var institutions = (numSites > 1) ? 'institutions' : 'institution';
       if (resultType == 'all') {
-        var resultText = (total > 1) ? 'matches' : 'match';
+        var resultText = (total > 1) ? 'more matches' : 'more match';
         var link = $('<a href="#">').text(total+' '+resultText).click(this.changeScope());
-        message.append(link).append(' for "'+queryText+'" from '+numSites+' '+institutions+' in the national VIVO network.')
+        message.append(link).append(' for "'+queryText+'" from '+numSites+' other '+institutions+' in the national VIVO network.')
       }
       else {
         var resultText = (total > 1) ? resultType.toLowerCase() : 'result';
         var link = $('<a href="#">').text(total+' '+resultText).click(this.changeScope());
-        message.append(link).append(' matching "'+queryText+'" from '+numSites+' '+institutions+' in the national VIVO network.')
+        message.append(link).append(' matching "'+queryText+'" from '+numSites+' other '+institutions+' in the national VIVO network.')
 
       }
 

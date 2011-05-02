@@ -123,7 +123,7 @@
 
 .facet li {
   padding-left: 32px;
-  margin-bottom: 0.2em;
+/*  margin-bottom: 0.2em;*/
 }
 
 .facet.collapsed ul { display: none; }
