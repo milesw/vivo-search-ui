@@ -45,7 +45,7 @@ var prototypeURL = 'http://localhost:8080/vivo';
     'facet': true,
     'fl': ['name','URI','moniker','siteName','siteURL'],
     'facet.mincount': 1,
-    'facet.field': '{!ex=type_label,classgroup,national_search}siteURL', // Workaround used to display a count for "All"
+    'facet.field': '{!ex=type_label,classgroup}siteURL', // Workaround used to display a count for "All"
     'f.classgroup.facet.limit': 20,
     'f.siteName.facet.mincount': '0', // Breaks when evaluating zero as a number
     'hl': true,
@@ -89,7 +89,7 @@ var prototypeURL = 'http://localhost:8080/vivo';
     id: 'classgroup',
     target: '#search-categories',
     field: 'classgroup',
-    exclude: ['type_label','national_search'],
+    exclude: ['type_label'],
     groups: groups,
     tagAndExclude: true,
     allowMultipleValues: false
