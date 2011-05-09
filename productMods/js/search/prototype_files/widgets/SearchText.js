@@ -16,6 +16,19 @@ AjaxSolr.SearchText = AjaxSolr.AbstractTextWidget.extend({
 
     self.set(value || this.getUrlParam('querytext'));
 
+    nationalSearch = (this.getUrlParam('scope') === 'national') ? true : false;
+
+    var group = this.getUrlParam('classgroup');
+    if (group !== null && group !== 'all') {
+      var param = new AjaxSolr.Parameter({
+        name: 'fq',
+        key: 'classgroup',
+        value: group,
+      });
+      param.local('tag', 'classgroup');
+      this.manager.store.add(param.name, param);
+    }
+
     // Bind to further form submissions
     $(this.target).submit(function() {
       var target = $(self.target);

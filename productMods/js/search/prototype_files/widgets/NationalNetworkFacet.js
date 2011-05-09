@@ -10,7 +10,7 @@ AjaxSolr.NationalNetworkFacet = AjaxSolr.MultiCheckboxFacet.extend({
     this.setupStore();
 
     // Default to local search on startup
-    nationalSearch = false;
+    // nationalSearch = false;
 
     // Examine the parameters pulled from the URL and look for params
     // for this facet. If there is only one value and it's "Cornell University"
