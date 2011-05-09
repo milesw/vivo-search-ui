@@ -21,17 +21,37 @@ AjaxSolr.SearchText = AjaxSolr.AbstractTextWidget.extend({
 
     // Bind to further form submissions
     $(this.target).submit(function() {
-      $(this).find('input').blur();
-      value = $(this).find('input:text').val();
+      var target = $(self.target);
+
+      target.find('input').blur();
 
       // Clear out all existing filters unless user has checked the magic box
       if ($('#keep-my-selections:checked').length < 1) {
         self.manager.store.remove('fq');
       }
 
-      if (value && self.set(value)) {
-        self.manager.doRequest(0);
+      // Set the starting search scope
+      var scope = target.find('.search-filter-scope input:checked').val();
+      nationalSearch = (scope === 'national') ? true : false;
+
+      // Set the starting classgroup
+      var group = target.find('.search-filter-classgroup input:checked').val();
+      if (group !== 'all') {
+        var param = new AjaxSolr.Parameter({
+          name: 'fq',
+          key: 'classgroup',
+          value: group,
+        });
+        param.local('tag', 'classgroup');
+        self.manager.store.add(param.name, param);
       }
+
+      // Set the query text
+      var value = target.find('input:text').val();
+      self.set(value)
+
+      self.manager.doRequest(0);
+
       return false;
     });
   },

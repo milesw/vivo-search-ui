@@ -57,6 +57,11 @@ AjaxSolr.NationalNetworkFacet = AjaxSolr.MultiCheckboxFacet.extend({
     // Always empty the facet first
     target.empty();
 
+    // Update the search scope on the search form dropdown menu
+    var searchForm = this.manager.widgets['search'].target;
+    var inputValue = (nationalSearch) ? 'national' : 'local';
+    $('input[value='+inputValue+']', searchForm).attr('checked', 'true');
+
     // *** LOCAL SEARCH ***
 
     if (nationalSearch == false) {
