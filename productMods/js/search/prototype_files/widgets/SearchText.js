@@ -16,9 +16,6 @@ AjaxSolr.SearchText = AjaxSolr.AbstractTextWidget.extend({
 
     self.set(value || this.getUrlParam('querytext'));
 
-    // Set the value of the AJAX search form
-    // $(this.target).find('input:text').val(value);
-
     // Bind to further form submissions
     $(this.target).submit(function() {
       var target = $(self.target);

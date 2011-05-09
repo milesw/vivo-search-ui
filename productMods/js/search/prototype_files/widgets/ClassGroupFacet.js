@@ -9,7 +9,6 @@ AjaxSolr.GroupFacet = AjaxSolr.AbstractFacetWidget.extend({
   init: function () {
     this.setupStore();
     var active = this.getActive();
-    console.log(active);
 
     var list = $("<ul></ul>").append(AjaxSolr.theme('category_link', 'All', '0', (active == 'all') ? true : false, this.allResultsClickHandler()));
     for (var uri in groups) {
@@ -93,7 +92,6 @@ AjaxSolr.GroupFacet = AjaxSolr.AbstractFacetWidget.extend({
     for (var name in groups) {
       var count = (counts[name] !== undefined) ? counts[name] : 0;
       var activeClass = (name == active) ? true : false;
-      // console.log(activeClass);
       list.append(AjaxSolr.theme('category_link', groups[name].name, count, activeClass, this.clickHandler(groups[name])));
     }
 
