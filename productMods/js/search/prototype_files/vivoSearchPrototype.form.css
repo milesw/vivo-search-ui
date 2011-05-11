@@ -66,9 +66,9 @@ a.dropdown-open {
   -moz-border-radius-topleft: 0;
   border-radius: 8px;
   border-top-left-radius: 0;
-  -webkit-box-shadow: 0px 5px 5px ;
-  -moz-box-shadow: 0px 5px 5px ;
-  box-shadow: 0px 5px 5px ;
+  -webkit-box-shadow: 0px 4px 6px #555;
+  -moz-box-shadow: 0px 4px 6px #555;
+  box-shadow: 0px 4px 6px #555;
 }
 
 #search-form .search-filters label { display: inline; }

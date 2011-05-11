@@ -29,19 +29,15 @@
 
                             <div id="search-home-field">
                                 <input type="text" name="querytext" class="search-home-vivo" value="${querytext!}" />
-                                <input type="submit" value="Search" class="search">
+                                <input type="submit" value="Search" class="search" />
                             </div>
 
-                            <div class="search-filters">
+                            <div class="search-filters search-filter-scope">
+                                <input type="radio" id="search-scope-local" name="scope" value="local" checked="checked" />
+                                <label for="search-scope-local">Cornell University only</label>
 
-                                <div class="search-filter-scope">
-
-                                    <input type="radio" name="scope" id="search-scope-local" value="local" checked="true" />
-                                    <label for="search-scope-local">Cornell University only</label>
-
-                                    <input type="radio" name="scope" id="search-scope-national" value="national" />
-                                    <label for="search-scope-national">All VIVO institutions</label>
-                                </div>
+                                <input type="radio" id="search-scope-national" name="scope" value="national" />
+                                <label for="search-scope-national">All VIVO institutions</label>
                             </div>
 
                         </form>

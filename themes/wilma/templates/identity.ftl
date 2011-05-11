@@ -33,7 +33,7 @@
                         <div class="search-filter-classgroup">
                             <strong>Search for:</strong>
 
-                            <input type="radio" name="classgroup" value="all" id="search-classgroup-1" checked="true" />
+                            <input type="radio" name="classgroup" value="all" id="search-classgroup-1" checked="checked" />
                             <label for="search-classgroup-1">All</label>
                             <br />
                             <input type="radio" name="classgroup" value="people" id="search-classgroup-2" />
@@ -61,11 +61,11 @@
                             <label for="search-classgroup-9">Topics</label>
                         </div>
                         <div class="search-filter-scope">
-                            <input type="radio" name="scope" id="search-scope-local" value="local" checked="true" />
-                            <label for="search-scope-local">Search Cornell University</label>
+                            <input type="radio" name="scope" id="home-search-scope-local" value="local" checked="checked" />
+                            <label for="home-search-scope-local">Search Cornell University</label>
                             <br />
-                            <input type="radio" name="scope" id="search-scope-national" value="national" />
-                            <label for="search-scope-national">Search all VIVO institutions</label>
+                            <input type="radio" name="scope" id="home-search-scope-national" value="national" />
+                            <label for="home-search-scope-national">Search all VIVO institutions</label>
                         </div>
                     </div>
                     <input type="submit" value="Search" class="search">
