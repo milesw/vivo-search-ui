@@ -5,7 +5,6 @@ $(document).ready(function() {
 
     // Toggle the dropdown menu.
     $('#search-form .dropdown').click(function(e) {
-      console.log('clicked');
         e.preventDefault();
         $('#search-form .search-filters').toggle();
         $('#search-form .dropdown').toggleClass('dropdown-open');
