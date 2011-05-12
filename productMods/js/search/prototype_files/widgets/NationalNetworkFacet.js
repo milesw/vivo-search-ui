@@ -68,19 +68,24 @@ AjaxSolr.NationalNetworkFacet = AjaxSolr.MultiCheckboxFacet.extend({
       var total = 0;
       var numSites = 0;
 
+      var cornellResults = 0;
+
       // Go through the siteName facet and gather an institution count
       // and a result count.
       var sites = this.manager.response.facet_counts.facet_fields.siteName;
       for (var site in sites) {
         // Do not include Cornell in national result count
-        if (site !== 'Cornell University') {
+        // if (site !== 'Cornell University') {
           total += sites[site];
           if (sites[site] > 0) numSites++;
-        }
+          if (site === 'Cornell University') {
+            cornellResults = sites[site];
+          }
+        // }
       }
 
       // Don't display the network teaser if there are no results there.
-      if (total < 1) return;
+      if (total < 1 || total == cornellResults) return;
 
       // Modify relevant classes, move facet lower in layout
       $('#search-controls').removeClass('national-search').addClass('local-search');
@@ -93,17 +98,16 @@ AjaxSolr.NationalNetworkFacet = AjaxSolr.MultiCheckboxFacet.extend({
       // Build a message and link for national network results
       var message = $('<p>').text('Found ');
       var institutions = (numSites > 1) ? 'institutions' : 'institution';
+
       if (resultType == 'all') {
-        var resultText = (total > 1) ? 'matches' : 'match';
-        var link = $('<a href="#">').text(total+' '+resultText).click(this.changeScope());
-        message.append(link).append(' for "'+queryText+'" from '+numSites+' other '+institutions+' in the national VIVO network.')
+        var resultText = (total > 1) ? 'results' : 'result';
       }
       else {
-        var resultText = (total > 1) ? resultType.toLowerCase() : 'result';
-        var link = $('<a href="#">').text(total+' '+resultText).click(this.changeScope());
-        message.append(link).append(' matching "'+queryText+'" from '+numSites+' other '+institutions+' in the national VIVO network.')
-
+        var resultText = (total > 1) ? resultType.toLowerCase() : 'national result';
       }
+
+      var link = $('<a href="#">').text(total+' '+resultText).click(this.changeScope());
+      message.append(link).append(' from '+numSites+' '+institutions+' in the national VIVO network.');
 
       // Add the facet heading
       var heading = $('<h3></h3>').addClass('facet-header').text(this.title);
