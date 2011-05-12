@@ -165,21 +165,15 @@
 
 #results-header {
   font-size: 12px;
-  line-height: 12px;
-  margin-bottom: 16px;
-/*  margin-left: -12px;*/
-/*  font-style: italic;*/
-/*  float: right;*/
-  text-align: right;
-/*  position: relative;*/
-  margin-top: -32px;
+  margin-bottom: 22px;
+  margin-top: -4px;
 }
 
-#results-header .other-results {
-/*  border-left: 1px dotted #bbb;*/
-  padding-left: 3px;
-/*  padding-left: 10px;*/
+#results-header span {
+  float: right;
 }
+
+#results-header .other-results { padding-left: 3px; }
 
 #results-header select {
   width: 200px;

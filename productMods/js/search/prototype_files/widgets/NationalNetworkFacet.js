@@ -171,6 +171,9 @@ AjaxSolr.NationalNetworkFacet = AjaxSolr.MultiCheckboxFacet.extend({
       allTotal += counts[site];
     }
 
+    var totalText = (total > 1) ? total+' results' : total+' result';
+    var nationalTotal = (allTotal > 1) ? allTotal+' national VIVO results' : allTotal+' national VIVO result';
+
     // Create a select list.
     var selectList = $('<select class="select-institution" />');
     selectList.append('<option value="all">All VIVO institutions ('+allTotal+')</option>');
@@ -202,7 +205,21 @@ AjaxSolr.NationalNetworkFacet = AjaxSolr.MultiCheckboxFacet.extend({
 
     if (total > 0) {
       var handler = this.headerChangeHandler();
-      $('#results-header').html('<strong>'+totalText+'</strong> from ').append(selectList.change(handler));
+      var scopeHandler = this.changeScope();
+      // var nationalLink = (allTotal > 0 && allTotal > total && !nationalSearch) ? '()' : '';
+
+      if (allTotal > 0 && allTotal > total && !nationalSearch) {
+        $('#results-header').append('(').append($('<a href="#">'+nationalTotal+'</a>').click(scopeHandler)).append(')');
+      }
+      $('#results-header').prepend('<strong>'+totalText+'</strong> ').append(
+        $('<span>').text('Searched: ').append(selectList.change(handler))
+      );
+
+        // ;
+
+
+      // append('Searched: ').append();
+      // $('#results-header').html('Searched: ').append();
     }
   },
 
